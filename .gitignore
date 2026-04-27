@@ -1,0 +1,8 @@
+.idea/
+__pycache__/
+venv/
+*.mp3
+*.png
+.venv/
+.envreports/
+.pytest_cache/
