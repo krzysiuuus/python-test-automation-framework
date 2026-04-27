@@ -29,7 +29,7 @@ class FlightInvoicePage(BasePage):
     NOTE_XPATH = "//div[@class='panel-body']"
 
     def __init__(self, driver):
-        super().__init__(driver, timeout=20)
+        super().__init__(driver, timeout=30)
         self.logger = logging.getLogger(__name__)
 
     @allure.step("Checking if flight invoice page is loaded")
