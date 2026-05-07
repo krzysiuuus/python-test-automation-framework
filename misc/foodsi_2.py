@@ -7,7 +7,7 @@ import random
 pytesseract.pytesseract.tesseract_cmd = r"C:\Users\kstyczynski\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
 
 # miejsca ceny
-PRICE1 = (820, 900)
+PRICE1 = (810, 890)
 PRICE2 = (820, 1650)
 
 # miejsca kliknięcia kart
@@ -83,18 +83,18 @@ while True:
         screenshot2()
         break
 
-    if "34" in p2 and is_available(*STATUS2):
-        print("34,99 na pozycji 2 → klik")
-        tap(*CARD2)
-        play_alarm()
-        screenshot2()
-        break
+    # if "34" in p2 and is_available(*STATUS2):
+    #     print("34,99 na pozycji 2 → klik")
+    #     tap(*CARD2)
+    #     play_alarm()
+    #     screenshot2()
+    #     break
 
     print("brak dobrej paczki")
 
     counter += 1
     print("próba:", counter)
     print("-------------------------------")
-    x = random.randint(4, 6)
+    x = random.randint(500, 700) / 100
     print("czekam " + str(x) + " sekund")
     time.sleep(x)

@@ -6,3 +6,4 @@ venv/
 .venv/
 .envreports/
 .pytest_cache/
+misc
