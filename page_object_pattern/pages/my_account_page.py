@@ -24,6 +24,9 @@ class MyAccountPage:
         self.driver.find_element(*self.password_input).send_keys(password)
         self.driver.find_element(*self.password_input).send_keys(Keys.ENTER)
 
+    def logout(self):
+        self.driver.find_element(*self.logout_link).click()
+
     def create_account(self, email, password):
         self.driver.find_element(*self.reg_email_input).send_keys(email)
         self.driver.find_element(*self.reg_password_input).send_keys(password)
