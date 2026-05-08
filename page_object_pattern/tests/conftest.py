@@ -4,25 +4,27 @@ from allure_commons.types import AttachmentType
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from datetime import datetime, timedelta
-
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 @pytest.fixture()
 def setup(request):
-    #driver = DriverFactory.get_driver("chrome")
     options = webdriver.ChromeOptions()
-    #options.add_argument("--ignore-certificate-errors")
-    #options.add_argument("--allow-insecure-localhost")
-    options.binary_location = r"C:\Users\kstyczynski\PycharmProjects\chrome-win64\chrome.exe"
-    service = Service(executable_path=r"C:\Users\kstyczynski\PycharmProjects\chromedriver-win64\chromedriver.exe")
-    driver = webdriver.Chrome(options=options, service=service)
-    driver.maximize_window()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1920,1080")
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
     request.cls.driver = driver
     before_failed = request.session.testsfailed
     yield
     if request.session.testsfailed != before_failed:
         allure.attach(driver.get_screenshot_as_png(), name="Test failed", attachment_type=AttachmentType.PNG)
-    #driver.quit()
+    driver.quit()
 
 @pytest.fixture
 def date_range():
