@@ -4,11 +4,7 @@ from allure_commons.types import AttachmentType
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from datetime import datetime, timedelta
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
-from page_object_pattern.utils.driver_factory import DriverFactory
 
 
 @pytest.fixture()
@@ -21,10 +17,6 @@ def setup(request):
     service = Service(executable_path=r"C:\Users\kstyczynski\PycharmProjects\chromedriver-win64\chromedriver.exe")
     driver = webdriver.Chrome(options=options, service=service)
     driver.maximize_window()
-    # driver.get("http://www.kurs-selenium.pl/demo/")
-    # wait = WebDriverWait(driver, 10)
-    # proceed = wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(), 'Przejdź do witryny')]")))
-    # proceed.click()
     request.cls.driver = driver
     before_failed = request.session.testsfailed
     yield
