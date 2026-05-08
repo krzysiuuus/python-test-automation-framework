@@ -6,7 +6,7 @@ from page_object_pattern.pages.hotel_details import HotelDetailsPage
 from page_object_pattern.pages.hotel_invoice import HotelInvoicePage
 from page_object_pattern.pages.hotel_search import SearchHotelPage
 from page_object_pattern.pages.hotel_search_results import SearchResultsPage
-from test_data.hotel_data import TEST_DATA
+from page_object_pattern.tests.test_data.hotel_data import TEST_DATA
 
 
 
