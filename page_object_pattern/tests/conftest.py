@@ -1,12 +1,12 @@
+import os
+from datetime import datetime, timedelta
+
 import allure
 import pytest
-import os
 from allure_commons.types import AttachmentType
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from datetime import datetime, timedelta
 from webdriver_manager.chrome import ChromeDriverManager
-
 
 @pytest.fixture()
 def setup(request):
@@ -29,6 +29,7 @@ def setup(request):
         allure.attach(driver.get_screenshot_as_png(), name="Test failed", attachment_type=AttachmentType.PNG)
     driver.quit()
 
+
 @pytest.fixture
 def date_range():
     today = datetime.today()
@@ -38,4 +39,17 @@ def date_range():
     return {
         "check_in": check_in.strftime("%d/%m/%Y"),
         "check_out": check_out.strftime("%d/%m/%Y")
+    }
+
+
+@pytest.fixture
+def flight_date_range():
+    today = datetime.now()
+
+    check_in = today + timedelta(days=30)
+    check_out = today + timedelta(days=37)
+
+    return {
+        "check_in": check_in.strftime("%Y-%m-%d"),
+        "check_out": check_out.strftime("%Y-%m-%d")
     }

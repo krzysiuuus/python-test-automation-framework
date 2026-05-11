@@ -15,7 +15,7 @@ class FlightListPage(BasePage):
     BOOK_BUTTON_XPATH = "//button[@id='bookbtn']"
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver, timeout=30)
         self.logger = logging.getLogger(__name__)
 
     @allure.step("Waiting for flight list page to load")
