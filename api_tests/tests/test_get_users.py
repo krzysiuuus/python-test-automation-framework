@@ -1,5 +1,5 @@
 import allure
-import requests
+from api_tests.utils.posts_api import PostsApi
 
 
 @allure.feature("Posts API")
@@ -8,7 +8,7 @@ class TestGetPosts:
 
     @allure.title("Verify posts list can be downloaded")
     def test_get_posts(self):
-        response = requests.get("https://jsonplaceholder.typicode.com/posts")
+        response = PostsApi.get_posts()
 
         assert response.status_code == 200
 
