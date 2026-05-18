@@ -1,4 +1,4 @@
-name: Python UI Tests
+name: Python Tests
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  tests:
+  ui-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +26,26 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run UI tests
         run: |
-          pytest
+          pytest page_object_pattern/tests -v
+
+  api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run API tests
+        run: |
+          pytest api_tests/tests -v

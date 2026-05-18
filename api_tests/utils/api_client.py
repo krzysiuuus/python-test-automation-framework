@@ -3,20 +3,31 @@ import requests
 
 class ApiClient:
 
-    BASE_URL = "https://jsonplaceholder.typicode.com"
+    session = requests.Session()
+
+    session.headers.update({
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    })
 
     @staticmethod
-    def get(endpoint):
-        return requests.get(f"{ApiClient.BASE_URL}{endpoint}")
+    def set_token(token):
+        ApiClient.session.headers.update({
+            "Authorization": f"Bearer {token}"
+        })
 
     @staticmethod
-    def post(endpoint, payload):
-        return requests.post(f"{ApiClient.BASE_URL}{endpoint}", json=payload)
+    def get(base_url, endpoint):
+        return ApiClient.session.get(f"{base_url}{endpoint}")
 
     @staticmethod
-    def put(endpoint, payload):
-        return requests.put(f"{ApiClient.BASE_URL}{endpoint}", json=payload)
+    def post(base_url, endpoint, payload):
+        return ApiClient.session.post(f"{base_url}{endpoint}", json=payload)
 
     @staticmethod
-    def delete(endpoint):
-        return requests.delete(f"{ApiClient.BASE_URL}{endpoint}")
+    def put(base_url, endpoint, payload):
+        return ApiClient.session.put(f"{base_url}{endpoint}", json=payload)
+
+    @staticmethod
+    def delete(base_url, endpoint):
+        return ApiClient.session.delete(f"{base_url}{endpoint}")
