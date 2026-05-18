@@ -1,6 +1,6 @@
-# Python UI Test Framework
+# Python Test Automation Framework
 
-![Python UI Tests](https://github.com/krzysiuuus/python-ui-test-framework/actions/workflows/python-tests.yml/badge.svg)
+![Python Tests](https://github.com/krzysiuuus/python-test-automation-framework/actions/workflows/python-tests.yml/badge.svg)
 
 Automated UI testing project created with Python, Selenium WebDriver and Pytest.
 
@@ -8,7 +8,7 @@ The project is based on the Page Object Pattern and contains automated end-to-en
 
 ## Technologies
 
-- Python
+- Pythondawaj na spotkani
 - Selenium WebDriver
 - Pytest
 - Page Object Pattern
@@ -19,7 +19,7 @@ The project is based on the Page Object Pattern and contains automated end-to-en
 
 - Page Object Pattern architecture
 - End-to-end UI automation
-- GitHub Actions CI pipeline
+- GitHub Actions CI pipelineŚ
 - Allure reporting
 - Headless browser execution
 - Test data management
@@ -36,10 +36,38 @@ The framework is based on the Page Object Pattern design approach:
 - Allure integration for reporting
 - GitHub Actions CI integration
 
+## API Testing
+
+The framework also contains API automated tests built with:
+
+- Requests
+- Pytest
+- Allure Reports
+
+Implemented API features:
+
+- GET requests
+- POST requests
+- PUT requests
+- DELETE requests
+- Positive and negative scenarios
+- JSON schema validation
+- Response time assertions
+- Bearer token authentication
+- Reusable API client abstraction
+- Parametrized API tests
+
+API tests are separated from UI tests and executed in a dedicated GitHub Actions pipeline job.
+
 ## Project Structure
 
 ```text
 python-ui-test-framework/
+├── api_tests/
+│   ├── data/
+│   ├── schemas/
+│   ├── tests/
+│   └── utils/
 ├── page_object_pattern/
 │   ├── locators/
 │   ├── pages/
@@ -124,7 +152,6 @@ Pipeline automatically:
 
 ## Future Improvements
 
-- API test automation
 - Docker support
 - Parallel execution
 - Test retries
