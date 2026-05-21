@@ -7,7 +7,8 @@ class ApiClient:
 
     session.headers.update({
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "x-api-key": "reqres-free-v1"
     })
 
     @staticmethod

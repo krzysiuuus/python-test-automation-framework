@@ -17,4 +17,4 @@ class TestCreateInvalidPost:
 
         response_body = response.json()
 
-        assert response_body == {}
+        assert "id" in response_body

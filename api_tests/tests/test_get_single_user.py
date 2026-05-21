@@ -14,7 +14,10 @@ class TestGetSingleUser:
     @allure.title("Verify single user can be downloaded")
     def test_get_single_user(self, user_id):
 
-        response = ApiClient.get(f"/users/{user_id}")
+        response = ApiClient.get(
+            "https://jsonplaceholder.typicode.com",
+            f"/users/{user_id}"
+        )
 
         assert response.status_code == 200
         assert response.elapsed.total_seconds() < 2

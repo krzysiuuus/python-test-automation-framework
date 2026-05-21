@@ -2,28 +2,35 @@
 
 ![Python Tests](https://github.com/krzysiuuus/python-test-automation-framework/actions/workflows/python-tests.yml/badge.svg)
 
-Automated UI testing project created with Python, Selenium WebDriver and Pytest.
+Automated test framework created with Python, Selenium WebDriver, Requests and Pytest.
 
-The project is based on the Page Object Pattern and contains automated end-to-end tests for web application scenarios such as flight search, hotel search and booking flows.
+The project contains both UI and API automated tests designed using scalable test automation architecture patterns such as Page Object Pattern and reusable API client abstraction.
+
+The framework includes end-to-end UI scenarios, API validation, Allure reporting and GitHub Actions CI/CD integration.
 
 ## Technologies
 
-- Pythondawaj na spotkani
+- Python
 - Selenium WebDriver
+- Requests
 - Pytest
 - Page Object Pattern
+- API Client Abstraction
+- JSON Schema Validation
 - Allure Reports
 - GitHub Actions
+- Docker
 
 ## Features
 
 - Page Object Pattern architecture
-- End-to-end UI automation
-- GitHub Actions CI pipelineŚ
+- End-to-end UI and API automation
+- GitHub Actions CI pipelines
 - Allure reporting
 - Headless browser execution
 - Test data management
 - Screenshot attachment on test failure
+- Docker container support
 
 ## Architecture
 
@@ -35,6 +42,7 @@ The framework is based on the Page Object Pattern design approach:
 - pytest fixtures for driver management
 - Allure integration for reporting
 - GitHub Actions CI integration
+- Dockerized API test execution
 
 ## API Testing
 
@@ -62,7 +70,7 @@ API tests are separated from UI tests and executed in a dedicated GitHub Actions
 ## Project Structure
 
 ```text
-python-ui-test-framework/
+python-test-automation-framework/
 ├── api_tests/
 │   ├── data/
 │   ├── schemas/
@@ -84,8 +92,8 @@ python-ui-test-framework/
 Clone the repository:
 
 ```bash
-git clone https://github.com/krzysiuuus/python-ui-test-framework.git
-cd python-ui-test-framework
+git clone https://github.com/krzysiuuus/python-test-automation-framework.git
+cd python-test-automation-framework
 ```
 
 Create and activate virtual environment:
@@ -115,6 +123,12 @@ Run selected test file:
 pytest page_object_pattern/tests/test_flight_search.py
 ```
 
+Run API tests:
+
+```bash
+pytest api_tests/tests -v
+```
+
 ## Allure Report
 
 Run tests with Allure results:
@@ -129,6 +143,29 @@ Generate and open report:
 allure serve reports
 ```
 
+## Docker Support
+
+The framework also supports running API automated tests inside Docker containers.
+
+Build Docker image:
+
+```bash
+docker build -t python-test-framework .
+```
+
+Run API tests inside container:
+
+```bash
+docker run python-test-framework
+```
+
+Docker container includes:
+
+- Python 3.10 environment
+- Installed project dependencies
+- Automated API test execution with Pytest
+- Reproducible and isolated test environment
+
 ## CI/CD
 
 The project uses GitHub Actions for Continuous Integration.
@@ -142,7 +179,7 @@ Pipeline automatically:
 
 ## Screenshots
 
-### GitHub Actions CI
+### GitHub Actions Pipeline
 
 ![GitHub Actions](screenshots/github-actions.png)
 
@@ -152,7 +189,6 @@ Pipeline automatically:
 
 ## Future Improvements
 
-- Docker support
 - Parallel execution
 - Test retries
 - Cross-browser testing
