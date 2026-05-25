@@ -1,5 +1,7 @@
 import requests
 
+from config.config import REQRES_API_KEY
+
 
 class ApiClient:
 
@@ -8,7 +10,7 @@ class ApiClient:
     session.headers.update({
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "x-api-key": "reqres-free-v1"
+        "x-api-key": REQRES_API_KEY
     })
 
     @staticmethod

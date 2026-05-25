@@ -1,9 +1,10 @@
 from api_tests.utils.api_client import ApiClient
+from config.config import API_BASE_URL
 
 
 class PostsApi:
 
-    BASE_URL = "https://jsonplaceholder.typicode.com"
+    BASE_URL = API_BASE_URL
 
     @staticmethod
     def get_posts():

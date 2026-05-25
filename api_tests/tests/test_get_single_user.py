@@ -4,7 +4,7 @@ import pytest
 from api_tests.utils.api_client import ApiClient
 from jsonschema import validate
 from api_tests.schemas.user_schema import USER_SCHEMA
-
+from config.config import API_BASE_URL
 
 @allure.feature("Users API")
 @allure.story("Get single user")
@@ -15,7 +15,7 @@ class TestGetSingleUser:
     def test_get_single_user(self, user_id):
 
         response = ApiClient.get(
-            "https://jsonplaceholder.typicode.com",
+            API_BASE_URL,
             f"/users/{user_id}"
         )
 

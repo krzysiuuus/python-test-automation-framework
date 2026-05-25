@@ -1,10 +1,7 @@
 import pytest
+from api_tests.utils.data_generator import DataGenerator
 
 
 @pytest.fixture
 def create_post_payload():
-    return {
-        "title": "My post",
-        "body": "Hello world",
-        "userId": 1
-    }
+    return DataGenerator.generate_post_payload()

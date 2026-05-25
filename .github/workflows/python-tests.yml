@@ -55,7 +55,7 @@ jobs:
 
       - name: Run API tests
         run: |
-          pytest api_tests/tests -v --alluredir=reports
+          pytest api_tests/tests -v -n auto --alluredir=reports
 
       - name: Upload API Allure results
         uses: actions/upload-artifact@v4
