@@ -20,6 +20,7 @@ The framework includes end-to-end UI scenarios, API validation, Allure reporting
 - Allure Reports
 - GitHub Actions
 - Docker
+- Jenkins
 
 ## Features
 
@@ -31,6 +32,7 @@ The framework includes end-to-end UI scenarios, API validation, Allure reporting
 - Test data management
 - Screenshot attachment on test failure
 - Docker container support
+- Jenkins CI pipeline
 
 ## Architecture
 
@@ -168,14 +170,23 @@ Docker container includes:
 
 ## CI/CD
 
-The project uses GitHub Actions for Continuous Integration.
+The project uses both GitHub Actions and Jenkins for Continuous Integration.
 
-Pipeline automatically:
+Implemented CI/CD features:
 
-- installs dependencies
-- runs automated tests
-- generates test reports
-- validates project integrity on every push
+- automated test execution on every push
+- Dockerized test execution
+- Jenkins pipeline integration
+- GitHub repository checkout
+- automated API test execution inside Docker containers
+- isolated and reproducible CI environment
+- test reporting integration
+
+Jenkins pipeline stages:
+
+- Checkout source code from GitHub
+- Build Docker image
+- Run automated API tests inside container
 
 ## Screenshots
 
