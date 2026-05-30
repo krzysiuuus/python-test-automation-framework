@@ -9,7 +9,6 @@ class TestCreatePost:
 
     @allure.title("Verify new post can be created")
     def test_create_post(self, create_post_payload):
-
         response = PostsApi.create_post(create_post_payload)
 
         assert response.status_code == 201
