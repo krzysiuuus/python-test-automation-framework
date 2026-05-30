@@ -4,23 +4,34 @@ from datetime import datetime, timedelta
 import allure
 import pytest
 from allure_commons.types import AttachmentType
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from page_object_pattern.utils.browser_factory import BrowserFactory
+
+
+def pytest_addoption(parser):
+    """
+    Adds custom pytest command-line option for browser selection.
+
+    The selected browser is read from pytest configuration and
+    passed to BrowserFactory, which creates the appropriate
+    WebDriver instance.
+    """
+    parser.addoption(
+        "--browser",
+        action="store",
+        default="chrome",
+        help="Browser to run tests: chrome"
+    )
+
 
 @pytest.fixture()
 def setup(request):
-    options = webdriver.ChromeOptions()
-    if os.getenv("CI"):
-        options.add_argument("--headless")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
+    headless = os.getenv("CI") == "true"
 
-    options.add_argument("--window-size=1920,1080")
+    browser_name = request.config.getoption("--browser")
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=options
+    driver = BrowserFactory.get_driver(
+        browser_name=browser_name,
+        headless=headless
     )
     request.cls.driver = driver
     before_failed = request.session.testsfailed
