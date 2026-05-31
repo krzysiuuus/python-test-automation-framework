@@ -177,6 +177,8 @@ Implemented CI/CD features:
 - automated test execution on every push
 - Dockerized test execution
 - Jenkins pipeline integration
+- Jenkinsfile-based pipeline stored in repository
+- GitHub Webhook trigger for automatic Jenkins builds after push
 - GitHub repository checkout
 - automated API test execution inside Docker containers
 - isolated and reproducible CI environment
@@ -184,9 +186,11 @@ Implemented CI/CD features:
 
 Jenkins pipeline stages:
 
+- Trigger pipeline automatically after GitHub push
 - Checkout source code from GitHub
 - Build Docker image
 - Run automated API tests inside container
+- Publish Allure report
 
 ## Screenshots
 
@@ -206,5 +210,5 @@ Jenkins pipeline stages:
 - Performance testing
 
 ## Author
-### Webhook Test
+
 Created by [krzysiuuus](https://github.com/krzysiuuus)
