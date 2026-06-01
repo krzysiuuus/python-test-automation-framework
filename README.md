@@ -21,6 +21,7 @@ The framework includes end-to-end UI scenarios, API validation, Allure reporting
 - GitHub Actions
 - Docker
 - Jenkins
+- Pytest Rerun Failures
 
 ## Features
 
@@ -33,6 +34,8 @@ The framework includes end-to-end UI scenarios, API validation, Allure reporting
 - Screenshot attachment on test failure
 - Docker container support
 - Jenkins CI pipeline
+- Browser Factory with browser selection support
+- Retry mechanism for flaky UI tests
 
 ## Architecture
 
@@ -204,10 +207,10 @@ Jenkins pipeline stages:
 
 ## Future Improvements
 
-- Parallel execution
-- Test retries
-- Cross-browser testing
+- Cross-browser testing improvements
+- Selenium Grid integration
 - Performance testing
+- Test analytics and trend reporting
 
 ## Author
 

@@ -11,8 +11,7 @@ def pytest_addoption(parser):
     """
     Adds custom pytest command-line option for browser selection.
 
-    The selected browser is read from pytest configuration and
-    passed to BrowserFactory, which creates the appropriate
+    The selected browser is read from pytest configuration and passed to BrowserFactory, which creates the appropriate
     WebDriver instance.
     """
     parser.addoption(
@@ -26,19 +25,34 @@ def pytest_addoption(parser):
 @pytest.fixture()
 def setup(request):
     headless = os.getenv("CI") == "true"
-
     browser_name = request.config.getoption("--browser")
-
     driver = BrowserFactory.get_driver(
         browser_name=browser_name,
         headless=headless
     )
     request.cls.driver = driver
-    before_failed = request.session.testsfailed
     yield
-    if request.session.testsfailed != before_failed:
-        allure.attach(driver.get_screenshot_as_png(), name="Test failed", attachment_type=AttachmentType.PNG)
     driver.quit()
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """
+    Attaches screenshot to Allure report when UI test fails.
+    """
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        test_instance = item.instance
+        driver = getattr(test_instance, "driver", None)
+
+        if driver:
+            allure.attach(
+                driver.get_screenshot_as_png(),
+                name="Test failed",
+                attachment_type=AttachmentType.PNG
+            )
 
 
 @pytest.fixture
