@@ -21,14 +21,23 @@ def pytest_addoption(parser):
         help="Browser to run tests: chrome"
     )
 
+    parser.addoption(
+        "--remote",
+        action="store_true",
+        default=False,
+        help="Run tests on Selenium Grid"
+    )
+
 
 @pytest.fixture()
 def setup(request):
     headless = os.getenv("CI") == "true"
     browser_name = request.config.getoption("--browser")
+    remote = request.config.getoption("--remote")
     driver = BrowserFactory.get_driver(
         browser_name=browser_name,
-        headless=headless
+        headless=headless,
+        remote=remote
     )
     request.cls.driver = driver
     yield

@@ -13,7 +13,7 @@ class BrowserFactory:
     """
 
     @staticmethod
-    def get_driver(browser_name="chrome", headless=True):
+    def get_driver(browser_name="chrome", headless=True, remote=False):
         browser_name = browser_name.lower()
 
         if browser_name == "chrome":
@@ -26,7 +26,11 @@ class BrowserFactory:
                 options.add_argument("--disable-dev-shm-usage")
             else:
                 options.add_argument("--start-maximized")
-
+            if remote:
+                return webdriver.Remote(
+                    command_executor="http://localhost:4444/wd/hub",
+                    options=options
+                )
             return webdriver.Chrome(
                 service=ChromeService(ChromeDriverManager().install()),
                 options=options
@@ -40,7 +44,11 @@ class BrowserFactory:
             else:
                 options.add_argument("--width=1920")
                 options.add_argument("--height=1080")
-
+            if remote:
+                return webdriver.Remote(
+                    command_executor="http://localhost:4444/wd/hub",
+                    options=options
+                )
             return webdriver.Firefox(
                 service=FirefoxService(GeckoDriverManager().install()),
                 options=options
@@ -56,7 +64,11 @@ class BrowserFactory:
                 options.add_argument("--disable-dev-shm-usage")
             else:
                 options.add_argument("--start-maximized")
-
+            if remote:
+                return webdriver.Remote(
+                    command_executor="http://localhost:4444/wd/hub",
+                    options=options
+                )
             return webdriver.Edge(options=options)
 
         raise ValueError(f"Unsupported browser: {browser_name}")

@@ -22,6 +22,7 @@ The framework includes end-to-end UI scenarios, API validation, Allure reporting
 - Docker
 - Jenkins
 - Pytest Rerun Failures
+- Selenium Grid
 
 ## Features
 
@@ -36,6 +37,8 @@ The framework includes end-to-end UI scenarios, API validation, Allure reporting
 - Jenkins CI pipeline
 - Browser Factory with browser selection support
 - Retry mechanism for flaky UI tests
+- Selenium Grid support
+- Remote WebDriver execution
 
 ## Architecture
 
@@ -134,6 +137,28 @@ Run API tests:
 pytest api_tests/tests -v
 ```
 
+Run remote tests:
+```bash
+pytest page_object_pattern/tests/test_login.py -v --browser=chrome --remote
+pytest page_object_pattern/tests/test_login.py -v --browser=firefox --remote
+```
+## Selenium Grid
+
+The framework supports remote UI test execution using Selenium Grid.
+
+Start Grid:
+
+```bash
+docker compose -f docker-compose.selenium.yml up -d
+```
+
+Run tests on Grid:
+
+```bash
+pytest page_object_pattern/tests -v --browser=chrome --remote
+pytest page_object_pattern/tests -v --browser=firefox --remote
+```
+
 ## Allure Report
 
 Run tests with Allure results:
@@ -180,6 +205,8 @@ Implemented CI/CD features:
 - automated test execution on every push
 - Dockerized test execution
 - Jenkins pipeline integration
+- Parameterized Jenkins builds
+- Cross-browser execution support
 - Jenkinsfile-based pipeline stored in repository
 - GitHub Webhook trigger for automatic Jenkins builds after push
 - GitHub repository checkout
@@ -208,7 +235,6 @@ Jenkins pipeline stages:
 ## Future Improvements
 
 - Cross-browser testing improvements
-- Selenium Grid integration
 - Performance testing
 - Test analytics and trend reporting
 
