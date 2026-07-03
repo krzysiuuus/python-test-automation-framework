@@ -33,8 +33,6 @@ class TestCreateAccount:
         # try to create same account again
         my_account_page.open_page()
         my_account_page.create_account(email, password)
-        expected_message = (
-            "An account is already registered with your email address."
-        )
+        expected_message = ("An account is already registered with your email address.")
         assert expected_message in my_account_page.get_error_message()
 

@@ -19,10 +19,7 @@ class TestHotelSearch:
         self.driver.get("http://www.kurs-selenium.pl/demo/")
         search_hotel_page = SearchHotelPage(self.driver)
         search_hotel_page.set_city(TEST_DATA["city"])
-        search_hotel_page.set_date_range(
-            date_range["check_in"],
-            date_range["check_out"]
-        )
+        search_hotel_page.set_date_range(date_range["check_in"], date_range["check_out"])
         search_hotel_page.set_travellers(*TEST_DATA["travellers"])
         search_hotel_page.perform_search()
         results_page = SearchResultsPage(self.driver)

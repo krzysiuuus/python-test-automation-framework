@@ -3,7 +3,8 @@ __pycache__/
 venv/
 *.mp3
 .venv/
-.envreports/
+.env
+reports/
 .pytest_cache/
 reports/
 misc
