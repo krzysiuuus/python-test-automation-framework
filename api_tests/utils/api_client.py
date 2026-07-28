@@ -1,7 +1,7 @@
 import requests
 
-from config.config import REQRES_API_KEY
-from utils.logger import get_logger
+from core.config import REQRES_API_KEY
+from core.logger import get_logger
 
 logger = get_logger(__name__)
 

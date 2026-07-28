@@ -1,5 +1,5 @@
 from api_tests.utils.api_client import ApiClient
-from config.config import API_BASE_URL
+from core.config import API_BASE_URL
 
 
 class PostsApi:

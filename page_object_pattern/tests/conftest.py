@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import allure
 import pytest
 from allure_commons.types import AttachmentType
-from page_object_pattern.utils.browser_factory import BrowserFactory
+from core.browser_factory import BrowserFactory
 
 
 def pytest_addoption(parser):
