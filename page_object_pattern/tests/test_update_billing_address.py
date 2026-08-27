@@ -3,7 +3,7 @@ import pytest
 
 from page_object_pattern.pages.billing_address_page import BillingAddressPage
 from page_object_pattern.pages.my_account_page import MyAccountPage
-from page_object_pattern.utils.data_generator import generate_email
+from page_object_pattern.test_data.data_generator import generate_email
 from page_object_pattern.tests.test_data.user_data import DEFAULT_PASSWORD
 
 

@@ -1,0 +1,13 @@
+services:
+  python-tests:
+    build: .
+    container_name: python-test-automation-framework
+
+    volumes:
+      - ./reports:/app/reports
+
+    command:
+      - pytest
+      - api_tests/tests
+      - -v
+      - --alluredir=reports
