@@ -3,6 +3,7 @@ from core.config import API_BASE_URL
 
 
 class PostsApi:
+    """Responsible for specific business endpoints"""
 
     BASE_URL = API_BASE_URL
 

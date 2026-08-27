@@ -12,6 +12,7 @@ class TestCreatePost:
         response = PostsApi.create_post(create_post_payload)
 
         assert response.status_code == 201
+        assert response.elapsed.total_seconds() < 2
 
         response_body = response.json()
 
