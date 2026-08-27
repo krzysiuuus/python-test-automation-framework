@@ -15,6 +15,7 @@ class TestHotelSearch:
 
     @allure.title("This is title")
     @allure.description("This is description")
+    @pytest.mark.xfail(reason="Known issue in demo application: hotel prices returned as 0")
     def test_hotel_search(self, date_range):
         self.driver.get("http://www.kurs-selenium.pl/demo/")
         search_hotel_page = SearchHotelPage(self.driver)

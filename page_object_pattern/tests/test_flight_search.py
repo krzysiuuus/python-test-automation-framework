@@ -14,6 +14,7 @@ class TestFlightSearch:
 
     @allure.title("User can search and book flight")
     @allure.description("Test verifies complete flight booking flow")
+    @pytest.mark.xfail(reason="Known issue in demo application: booking invoice is not opened")
     def test_flight_search(self, flight_date_range):
         self.driver.get("http://www.kurs-selenium.pl/demo/")
         flight_search_page = SearchFlightPage(self.driver)

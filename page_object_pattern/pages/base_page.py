@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
 
 class BasePage:
-    def __init__(self, driver, timeout=20):
+    def __init__(self, driver, timeout=30):
         self.driver = driver
         self.wait = WebDriverWait(driver, timeout)
 

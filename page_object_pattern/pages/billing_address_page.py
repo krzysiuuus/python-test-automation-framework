@@ -27,8 +27,8 @@ class BillingAddressPage(BasePage):
     @allure.step("Open billing address edit form")
     def open_edit_billing_address(self):
         self.logger.info("Opening billing address edit form")
-        self.driver.find_element(*self.addresses_link).click()
-        self.driver.find_element(*self.edit_link).click()
+        self.click(*self.addresses_link)
+        self.click(*self.edit_link)
         self.attach_screenshot("open_edit_billing_address")
 
     @allure.step("Set personal data")
