@@ -2,13 +2,17 @@ pipeline {
 
     agent any
 
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+
     parameters {
-    choice(
-        name: 'BROWSER',
-        choices: ['chrome', 'firefox', 'edge'],
-        description: 'Browser used for UI tests'
-    )
-}
+        choice(
+            name: 'BROWSER',
+            choices: ['chrome', 'firefox', 'edge'],
+            description: 'Browser used for UI tests'
+        )
+    }
 
     stages {
 
