@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     triggers {
         pollSCM('H/5 * * * *')
     }
@@ -19,7 +23,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/krzysiuuus/python-test-automation-framework.git'
+                    url: 'https://github.com/krzysiuuus/python-test-automation-framework.git'
             }
         }
 
