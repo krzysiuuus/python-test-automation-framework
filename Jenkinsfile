@@ -35,7 +35,20 @@ pipeline {
 
         stage('Run API tests') {
             steps {
-                sh 'docker run --rm -v $(pwd)/reports:/app/reports python-test-framework'
+                sh '''
+                    rm -rf reports
+                    mkdir -p reports/api/allure
+
+                    docker run --rm \
+                        --volumes-from jenkins \
+                        -w ${WORKSPACE} \
+                        python-test-framework \
+                        pytest api_tests/tests \
+                        -v \
+                        --alluredir=reports/api/allure
+
+                    find reports -maxdepth 4 -type f -print
+                '''
             }
         }
 
