@@ -6,7 +6,9 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
+from core.logger import get_logger
 
+logger = get_logger(__name__)
 
 class BrowserFactory:
     """
@@ -23,6 +25,7 @@ class BrowserFactory:
     @staticmethod
     def get_driver(browser_name="chrome", headless=True, remote=False):
         browser_name = browser_name.lower()
+        logger.info(f"Starting browser: {browser_name}, remote={remote}, headless={headless}")
 
         if browser_name == "chrome":
             options = webdriver.ChromeOptions()
