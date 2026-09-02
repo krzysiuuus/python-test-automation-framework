@@ -1,8 +1,11 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+
 
 
 class BrowserFactory:
@@ -11,6 +14,11 @@ class BrowserFactory:
 
     Supports browser-specific configuration and execution modes such as headless execution for CI environments.
     """
+
+    REMOTE_URL = os.getenv(
+        "REMOTE_URL",
+        "http://localhost:4444/wd/hub"
+    )
 
     @staticmethod
     def get_driver(browser_name="chrome", headless=True, remote=False):
@@ -28,7 +36,7 @@ class BrowserFactory:
                 options.add_argument("--start-maximized")
             if remote:
                 return webdriver.Remote(
-                    command_executor="http://localhost:4444/wd/hub",
+                    command_executor=BrowserFactory.REMOTE_URL,
                     options=options
                 )
             return webdriver.Chrome(
@@ -46,7 +54,7 @@ class BrowserFactory:
                 options.add_argument("--height=1080")
             if remote:
                 return webdriver.Remote(
-                    command_executor="http://localhost:4444/wd/hub",
+                    command_executor=BrowserFactory.REMOTE_URL,
                     options=options
                 )
             return webdriver.Firefox(
@@ -66,7 +74,7 @@ class BrowserFactory:
                 options.add_argument("--start-maximized")
             if remote:
                 return webdriver.Remote(
-                    command_executor="http://localhost:4444/wd/hub",
+                    command_executor=BrowserFactory.REMOTE_URL,
                     options=options
                 )
             return webdriver.Edge(options=options)

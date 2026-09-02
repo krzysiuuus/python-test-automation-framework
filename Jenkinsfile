@@ -52,12 +52,37 @@ pipeline {
             }
         }
 
+        stage('Run UI tests') {
+            steps {
+                sh '''
+                    mkdir -p reports/ui/allure
+
+                    docker run --rm \
+                        --volumes-from jenkins \
+                        -e CI=true \
+                        -e REMOTE_URL=http://host.docker.internal:4444/wd/hub \
+                        -w ${WORKSPACE} \
+                        python-test-framework \
+                        pytest page_object_pattern/tests \
+                        -v \
+                        --browser=${BROWSER} \
+                        --remote \
+                        --reruns 1 \
+                        --reruns-delay 2 \
+                        --alluredir=reports/ui/allure
+                '''
+            }
+        }
+
         stage('Publish Allure Report') {
             steps {
                 allure([
                     includeProperties: false,
                     jdk: '',
-                    results: [[path: 'reports/api/allure']]
+                    results: [
+                        [path: 'reports/api/allure'],
+                        [path: 'reports/ui/allure']
+                    ]
                 ])
             }
         }
