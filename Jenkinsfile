@@ -73,18 +73,18 @@ pipeline {
                 '''
             }
         }
+    }
 
-        stage('Publish Allure Report') {
-            steps {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    results: [
-                        [path: 'reports/api/allure'],
-                        [path: 'reports/ui/allure']
-                    ]
-                ])
-            }
+    post {
+        always {
+            allure([
+                includeProperties: false,
+                jdk: '',
+                results: [
+                    [path: 'reports/api/allure'],
+                    [path: 'reports/ui/allure']
+                ]
+            ])
         }
     }
 }
