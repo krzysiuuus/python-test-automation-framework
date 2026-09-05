@@ -6,92 +6,146 @@ Automated test framework created with Python, Selenium WebDriver, Requests and P
 
 The project contains both UI and API automated tests designed using scalable test automation architecture patterns such as Page Object Pattern and reusable API client abstraction.
 
-The framework includes end-to-end UI scenarios, API validation, Allure reporting and GitHub Actions CI/CD integration.
+The framework includes end-to-end UI scenarios, API validation, cross-browser execution, Docker, Selenium Grid, Jenkins, GitHub Actions and Allure reporting.
 
 ## Technologies
 
 - Python
+- Pytest
 - Selenium WebDriver
 - Requests
-- Pytest
 - Page Object Pattern
 - API Client Abstraction
 - JSON Schema Validation
+- Faker
 - Allure Reports
-- GitHub Actions
 - Docker
-- Jenkins
-- Pytest Rerun Failures
+- Docker Compose
 - Selenium Grid
+- Jenkins
+- GitHub Actions
+- Pytest Rerun Failures
+- WebDriver Manager
 
 ## Features
 
 - Page Object Pattern architecture
-- End-to-end UI and API automation
-- GitHub Actions CI pipelines
+- Browser Factory
+- Centralized configuration
+- Centralized logging
+- UI and API automated tests
+- Positive and negative test scenarios
+- Reusable API client
+- Test data generation with Faker
+- JSON Schema validation
+- Response time validation
+- Screenshot attachment on UI test failure
 - Allure reporting
-- Headless browser execution
-- Test data management
-- Screenshot attachment on test failure
-- Docker container support
-- Jenkins CI pipeline
-- Browser Factory with browser selection support
 - Retry mechanism for flaky UI tests
-- Selenium Grid support
+- Local browser execution
 - Remote WebDriver execution
+- Chrome, Firefox and Edge support
+- Selenium Grid
+- Dockerized test execution
+- Jenkins CI pipeline
+- Parameterized Jenkins builds
+- Automatic Jenkins builds using SCM polling
+- GitHub Actions CI
+- Headless execution in CI environments
 
 ## Architecture
 
-The framework is based on the Page Object Pattern design approach:
+The framework separates test logic from browser, page and API implementation details.
 
-- locators separated from test logic
+Main concepts:
+
+- Page Object Pattern for UI automation
 - reusable page classes
-- centralized test configuration
-- pytest fixtures for driver management
-- Allure integration for reporting
-- GitHub Actions CI integration
-- Dockerized API test execution
+- centralized locators
+- Browser Factory for WebDriver creation
+- centralized configuration
+- centralized logging
+- pytest fixtures for test setup and teardown
+- reusable API client
+- endpoint-specific API classes
+- separate UI and API test suites
+- Allure integration
+- Docker-based execution
+- CI/CD using GitHub Actions and Jenkins
 
-## API Testing
+### UI execution flow
 
-The framework also contains API automated tests built with:
+```text
+Test
+  ↓
+Page Object
+  ↓
+Browser Factory
+  ↓
+WebDriver
+  ↓
+Local Browser / Selenium Grid
+```
 
-- Requests
-- Pytest
-- Allure Reports
+### API execution flow
 
-Implemented API features:
-
-- GET requests
-- POST requests
-- PUT requests
-- DELETE requests
-- Positive and negative scenarios
-- JSON schema validation
-- Response time assertions
-- Bearer token authentication
-- Reusable API client abstraction
-- Parametrized API tests
-
-API tests are separated from UI tests and executed in a dedicated GitHub Actions pipeline job.
+```text
+Test
+  ↓
+Endpoint API class
+  ↓
+ApiClient
+  ↓
+HTTP request
+  ↓
+REST API
+```
 
 ## Project Structure
 
 ```text
 python-test-automation-framework/
+├── .github/
+│ └── workflows/
+│ └── python-tests.yml
+│
 ├── api_tests/
 │   ├── data/
 │   ├── schemas/
 │   ├── tests/
 │   └── utils/
+│
+├── core/
+│   ├── browser_factory.py
+│   ├── config.py
+│   └── logger.py
+│
 ├── page_object_pattern/
 │   ├── locators/
 │   ├── pages/
 │   └── tests/
+│       ├── conftest.py
+│       ├── test_create_account.py
+│       ├── test_flight_search.py
+│       ├── test_hotel_search.py
+│       ├── test_login.py
+│       └── test_update_billing_address.py
+│
 ├── reports/
 ├── screenshots/
-├── requirements.txt
+│   ├── allure-report.png
+│   └── github-actions.png
+│
 ├── pytest.ini
+├── requirements.txt
+│
+├── Dockerfile
+├── Dockerfile.jenkins
+├── docker-compose.yml
+├── docker-compose-grid.yml
+├── docker-compose-jenkins.yml
+│
+├── Jenkinsfile
 └── README.md
 ```
 
@@ -103,11 +157,15 @@ Clone the repository:
 git clone https://github.com/krzysiuuus/python-test-automation-framework.git
 cd python-test-automation-framework
 ```
-
-Create and activate virtual environment:
+Create virtual environment:
 
 ```bash
 python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
 venv\Scripts\activate
 ```
 
@@ -119,112 +177,387 @@ pip install -r requirements.txt
 
 ## Running Tests
 
-Run all tests:
-
-```bash
-pytest
-```
-
-Run selected test file:
-
-```bash
-pytest page_object_pattern/tests/test_flight_search.py
-```
-
-Run API tests:
+### Run API tests
 
 ```bash
 pytest api_tests/tests -v
 ```
 
-Run remote tests:
+### Run UI tests locally
+Chrome:
+
 ```bash
-pytest page_object_pattern/tests/test_login.py -v --browser=chrome --remote
-pytest page_object_pattern/tests/test_login.py -v --browser=firefox --remote
+pytest page_object_pattern/tests -v --browser=chrome
 ```
+
+Firefox:
+
+```bash
+pytest page_object_pattern/tests -v --browser=firefox
+```
+
+Edge:
+
+```bash
+pytest page_object_pattern/tests -v --browser=edge
+```
+
+Local UI execution uses a visible browser by default.
+
+### Run selected test
+Example:
+
+```bash
+pytest page_object_pattern/tests/test_login.py -v
+```
+
+### Retry failed UI tests
+
+The framework uses pytest-rerunfailures.
+
+Example:
+
+```bash
+pytest page_object_pattern/tests -v --reruns 1 --reruns-delay 2
+```
+
 ## Selenium Grid
 
-The framework supports remote UI test execution using Selenium Grid.
+The framework supports remote cross-browser UI execution using Selenium Grid.
 
-Start Grid:
+The Grid contains:
 
-```bash
-docker compose -f docker-compose.selenium.yml up -d
+```text
+Selenium Hub
+├── Chrome
+├── Firefox
+└── Edge
 ```
 
-Run tests on Grid:
+Start Selenium Grid:
+
+```bash
+docker compose -f docker-compose-grid.yml up -d
+```
+Grid UI: `http://localhost:4444/ui`
+
+Check Grid status: `http://localhost:4444/status`
+
+### Run UI tests through Selenium Grid
+
+Chrome:
 
 ```bash
 pytest page_object_pattern/tests -v --browser=chrome --remote
+```
+
+Firefox:
+
+```bash
 pytest page_object_pattern/tests -v --browser=firefox --remote
 ```
 
-## Allure Report
-
-Run tests with Allure results:
+Edge:
 
 ```bash
-pytest --alluredir=reports
+pytest page_object_pattern/tests -v --browser=edge --remote
 ```
 
-Generate and open report:
+Stop Grid:
 
 ```bash
-allure serve reports
+docker compose -f docker-compose-grid.yml down
 ```
 
-## Docker Support
+## Browser Factory
 
-The framework also supports running API automated tests inside Docker containers.
+Browser creation is centralized in: `core/browser_factory.py`
 
-Build Docker image:
+Supported browsers:
 
+- Chrome
+- Firefox
+- Edge
+
+Supported execution modes:
+```text
+LOCAL
+REMOTE
+```
+For remote execution, Selenium Grid URL can be provided through: `REMOTE_URL`
+
+Default value: `http://localhost:4444/wd/hub`
+
+In Docker/Jenkins execution the framework uses: `http://host.docker.internal:4444/wd/hub`
+
+Browser execution details are written to logs, for example:
+```text
+Starting browser: firefox, remote=True, headless=True
+```
+
+## Headless Execution
+
+Headless mode is automatically enabled when: `CI=true`
+
+This allows the same framework to run:
+
+```text
+Local execution
+→ visible browser
+
+CI execution
+→ headless browser
+```
+
+## API Testing
+
+API automation is implemented using:
+
+- Requests
+- Pytest
+- reusable ApiClient
+- endpoint-specific API classes
+- JSON Schema validation
+- Allure
+
+Implemented scenarios include:
+
+- GET requests
+- POST requests
+- PUT requests
+- DELETE requests
+- positive scenarios
+- negative scenarios
+- response status validation
+- response time validation
+- JSON response validation
+- parametrized tests
+- reusable API methods
+
+Example endpoints are based on JSONPlaceholder.
+
+## Allure Reports
+
+### Local execution
+
+Generate Allure results:
+```bash
+pytest api_tests/tests --alluredir=reports/api/allure
+```
+or:
+```bash
+pytest page_object_pattern/tests --alluredir=reports/ui/allure
+```
+Open report:
+```bash
+allure serve reports/api/allure
+```
+
+## Jenkins Allure Report
+
+Jenkins collects results from:
+```text
+reports/
+├── api/
+│   └── allure/
+└── ui/
+    └── allure/
+```
+Both API and UI results are combined into one Jenkins Allure report.
+
+Allure report publishing is executed in:
+```groovy
+post {
+    always {
+        ...
+    }
+}
+```
+This means the report is generated even when test execution fails.
+
+Screenshots from failed UI tests are attached to Allure reports.
+
+## Docker
+
+### Test Framework Docker Image
+
+Dockerfile defines the environment used to execute automated tests.
+
+It contains:
+
+- Python
+- project dependencies
+- Pytest
+- Selenium
+- Requests
+- Allure adapter
+- framework source code
+
+Build image:
 ```bash
 docker build -t python-test-framework .
 ```
 
-Run API tests inside container:
-
+### Run API tests with Docker Compose
 ```bash
-docker run python-test-framework
+docker compose up --build
+```
+This uses: `docker-compose.yml`
+
+The container provides an isolated and reproducible test execution environment.
+
+## Jenkins
+
+The project supports Jenkins CI running inside Docker.
+
+Start Jenkins:
+```bash
+docker compose -f docker-compose-jenkins.yml up -d --build
+```
+Jenkins: `http://localhost:8080`
+
+Stop Jenkins:
+```bash
+docker compose -f docker-compose-jenkins.yml down
 ```
 
-Docker container includes:
+### Dockerfile.jenkins
 
-- Python 3.10 environment
-- Installed project dependencies
-- Automated API test execution with Pytest
-- Reproducible and isolated test environment
+Dockerfile.jenkins defines the Jenkins environment.
 
-## CI/CD
+It extends the standard Jenkins image with Docker CLI support.
 
-The project uses both GitHub Actions and Jenkins for Continuous Integration.
+This allows Jenkins pipelines to execute commands such as:
+```bash
+docker build
+docker run
+```
+The responsibilities are separated as follows:
+```text
+Dockerfile
+→ test execution environment
 
-Implemented CI/CD features:
+Dockerfile.jenkins
+→ Jenkins CI environment
+```
 
-- automated test execution on every push
-- Dockerized test execution
-- Jenkins pipeline integration
-- Parameterized Jenkins builds
-- Cross-browser execution support
-- Jenkinsfile-based pipeline stored in repository
-- GitHub Webhook trigger for automatic Jenkins builds after push
-- GitHub repository checkout
-- automated API test execution inside Docker containers
-- isolated and reproducible CI environment
-- test reporting integration
+### Jenkins Pipeline
 
-Jenkins pipeline stages:
+The pipeline is defined as code in: `Jenkinsfile`
 
-- Trigger pipeline automatically after GitHub push
-- Checkout source code from GitHub
-- Build Docker image
-- Run automated API tests inside container
-- Publish Allure report
+Pipeline flow:
+```text
+GitHub
+   ↓
+SCM Polling
+   ↓
+Jenkins
+   ↓
+Checkout
+   ↓
+Build Docker Image
+   ↓
+API Tests
+   ↓
+UI Tests
+   ↓
+Selenium Grid
+   ↓
+Allure Report
+```
+
+### Automatic Jenkins Builds
+
+Jenkins checks the Git repository using SCM polling:
+```groovy
+triggers {
+    pollSCM('H/5 * * * *')
+}
+```
+Jenkins checks periodically for repository changes.
+
+A new build is started only when a new commit is detected.
+
+This avoids the need to expose the local Jenkins instance to the Internet through a webhook tunnel.
+
+### Parameterized Jenkins Builds
+
+UI execution can be started for:
+```text
+chrome
+firefox
+edge
+```
+Jenkins provides a BROWSER parameter that is passed to Pytest:
+```bash
+--browser=${BROWSER}
+```
+Automatic builds use Chrome as the default browser.
+
+### Jenkins and Selenium Grid
+
+API tests run directly inside the test container and do not require Selenium Grid.
+
+UI tests use remote WebDriver:
+```text
+Jenkins
+   ↓
+Python test container
+   ↓
+Remote WebDriver
+   ↓
+Selenium Grid
+   ↓
+Chrome / Firefox / Edge
+```
+The Grid must be running before Jenkins UI tests are executed.
+
+## GitHub Actions
+
+GitHub Actions provides an additional CI environment independent from Jenkins.
+
+The workflow executes:
+
+- API tests
+- UI tests
+- dependency installation
+- headless browser execution
+- Allure result generation
+- artifact upload
+
+GitHub Actions runs automatically after repository changes.
+
+Jenkins and GitHub Actions operate independently.
+```text
+git push
+   │
+   ├── GitHub Actions
+   │
+   └── Jenkins SCM polling
+```
+
+## Known Demo Application Issues
+
+Some UI tests use public demo applications that are outside the control of this project.
+
+Known issues are marked as expected failures using Pytest xfail.
+
+Examples:
+
+- hotel prices returned as 0
+- booking invoice not opened after flight booking
+
+Example:
+```python
+@pytest.mark.xfail(
+    reason="Known issue in demo application: hotel prices returned as 0"
+)
+```
+This prevents external demo application defects from being reported as framework failures.
 
 ## Screenshots
 
-### GitHub Actions Pipeline
+### GitHub Actions
 
 ![GitHub Actions](screenshots/github-actions.png)
 
@@ -232,11 +565,46 @@ Jenkins pipeline stages:
 
 ![Allure Report](screenshots/allure-report.png)
 
+## CI/CD Overview
+
+The project currently supports three execution approaches:
+```text
+1. LOCAL
+
+pytest
+├── API tests
+└── UI tests with visible browser
+
+
+2. LOCAL + SELENIUM GRID
+
+pytest --remote
+└── UI tests
+    └── Chrome / Firefox / Edge
+
+
+3. JENKINS
+
+Jenkins
+├── API tests in Docker
+└── UI tests
+    └── Selenium Grid
+        ├── Chrome
+        ├── Firefox
+        └── Edge
+```
+
 ## Future Improvements
 
-- Cross-browser testing improvements
-- Performance testing
-- Test analytics and trend reporting
+Possible future extensions:
+
+- test analytics and historical trend improvements
+- additional API scenarios
+- additional UI scenarios
+- improved test environment management
+- additional reporting metadata
+
+The project intentionally focuses on practical QA Automation concepts without unnecessary infrastructure complexity.
 
 ## Author
 
