@@ -13,7 +13,8 @@ class ApiClient:
     session.headers.update({
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "x-api-key": REQRES_API_KEY
+        "x-api-key": REQRES_API_KEY,
+        "X-Reqres-Env": "dev"
     })
 
     @staticmethod

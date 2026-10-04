@@ -1,0 +1,4 @@
+INFO test started
+ERROR login failed
+INFO retry started
+ERROR timeout
